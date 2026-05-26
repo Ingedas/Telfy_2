@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingedás · Estudio de Electricidad · José Javier Gil Riquelme</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --yellow:       #fcdb50;
+    --blue:         #1e3f6e;
+    --blue-mid:     #3a6ca8;
+    --blue-pale:    #eaf0f8;
+    --blue-dark:    #0d1f38;
+    --blue-light:   #2e5fa3;
+    --green:        #1f9e5c;
+    --green-pale:   #e8f7f0;
+    --amber:        #d4820a;
+    --amber-pale:   #fef6e4;
+    --warm-light:   #f5f3ee;
+    --warm-mid:     #e2dfd8;
+    --warm-dark:    #c8c4bc;
+    --text:         #1c2433;
+    --text-soft:    #5a6475;
+    --white:        #ffffff;
+  }
+  body { font-family: 'Montserrat', sans-serif; font-weight: 300; color: var(--text); background: var(--white); line-height: 1.65; }
+
+  /* ══════════════════════════════════════
+     COVER — degradado azul vivo → azul muy oscuro
+  ══════════════════════════════════════ */
+  .cover {
+    background: linear-gradient(150deg,
+      #2e5fa3 0%,
+      #1e3f6e 38%,
+      #0f2240 72%,
+      #0a1726 100%
+    );
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 56px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--yellow), rgba(252,219,80,0.2));
+  }
+
+  .cover-glow {
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(58,108,168,0.35) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-glow2 {
+    position: absolute;
+    bottom: -60px;
+    left: 80px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(31,158,92,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cover-dots {
+    position: absolute;
+    top: 72px;
+    right: 56px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 11px;
+    opacity: 0.09;
+    pointer-events: none;
+  }
+  .cover-dots span { width: 3px; height: 3px; background: var(--white); border-radius: 50%; display: block; }
+
+  .cover-brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    padding-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    position: relative; z-index: 1;
+  }
+  .cover-brand .brand-name { color: var(--yellow); font-weight: 600; letter-spacing: 3px; }
+
+  .cover-body { margin: auto 0; position: relative; z-index: 1; }
+
+  .cover-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(252,219,80,0.75);
+    margin-bottom: 22px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cover-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1.5px;
+    background: rgba(252,219,80,0.6);
+    flex-shrink: 0;
+  }
+
+  .cover-title {
+    font-size: clamp(60px, 9.5vw, 108px);
+    font-weight: 300;
+    letter-spacing: -2.5px;
+    line-height: 0.93;
+    color: var(--white);
+  }
+  .cover-title strong {
+    font-weight: 700;
+    background: linear-gradient(90deg, #ffffff 0%, #fcdb50 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .cover-subtitle {
+    font-size: 11px;
+    font-weight: 400;
+    margin-top: 18px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+  }
+
+  .cover-client-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-left: 3px solid rgba(252,219,80,0.6);
+    border-radius: 10px;
+    padding: 22px 28px;
+    margin-top: 48px;
+    display: inline-block;
+    backdrop-filter: blur(6px);
+  }
+  .cover-client-box .label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(252,219,80,0.6);
+    margin-bottom: 6px;
+  }
+  .cover-client-box .client-name {
+    font-size: 23px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .cover-client-box .client-meta {
+    font-size: 12px;
+    color: rgba(255,255,255,0.38);
+    margin-top: 5px;
+  }
+  .cover-pills {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .cover-pill {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 4px 13px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.5);
+  }
+  .cover-pill.accent {
+    background: rgba(252,219,80,0.10);
+    border-color: rgba(252,219,80,0.30);
+    color: rgba(252,219,80,0.85);
+  }
+  .cover-pill.solar {
+    background: rgba(31,158,92,0.12);
+    border-color: rgba(79,230,154,0.30);
+    color: rgba(160,240,200,0.9);
+  }
+
+  .cover-footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    position: relative; z-index: 1;
+  }
+
+  .cover-watermark {
+    position: absolute;
+    right: -20px;
+    bottom: -10px;
+    font-size: 200px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.025);
+    line-height: 1;
+    writing-mode: vertical-rl;
+    letter-spacing: -8px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ══════════════════════════════════════
+     PAGE
+  ══════════════════════════════════════ */
+  .page { max-width: 960px; margin: 0 auto; padding: 48px 56px; }
+  .page-header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 2px solid var(--blue); border-bottom: 1px solid var(--warm-mid);
+    padding: 8px 0; margin-bottom: 32px;
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-soft);
+  }
+  .page-header .ph-brand { color: var(--blue); font-weight: 600; }
+
+  h2.section-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin: 28px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--blue-pale); }
+
+  .cups-box { background: var(--blue); color: var(--white); border-radius: 7px; padding: 11px 18px; font-size: 12px; font-weight: 500; letter-spacing: 1px; margin: 0 0 16px; display: flex; justify-content: space-between; align-items: center; }
+  .cups-box .cups-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .cups-box .cups-provider { font-size: 10px; color: rgba(255,255,255,0.55); }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .info-card { background: var(--warm-light); border-radius: 7px; padding: 14px 16px; border-left: 3px solid var(--blue-mid); }
+  .info-card .ic-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 3px; }
+  .info-card .ic-value { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+  .info-card .ic-sub { font-size: 10px; color: #8a93a0; margin-top: 2px; }
+
+  .solar-strip { background: var(--green-pale); border-left: 4px solid var(--green); border-radius: 6px; padding: 12px 16px; font-size: 12px; display: flex; gap: 12px; align-items: center; color: #0e5a35; margin-bottom: 20px; line-height: 1.55; }
+  .solar-strip strong { color: var(--green); }
+
+  .chart-wrap { background: var(--warm-light); border-radius: 8px; padding: 24px 24px 16px; margin-bottom: 24px; }
+  .chart-title { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 20px; font-weight: 600; }
+  .chart-bars { display: flex; align-items: flex-end; gap: 24px; height: 130px; justify-content: center; }
+  .bar-col { flex: 1; max-width: 140px; display: flex; flex-direction: column; align-items: center; gap: 5px; height: 100%; justify-content: flex-end; }
+  .bar-value { font-size: 13px; font-weight: 700; color: var(--text); }
+  .bar-fill { width: 100%; border-radius: 3px 3px 0 0; }
+  .bar-fill.p1 { background: var(--amber); }
+  .bar-fill.p2 { background: var(--blue-mid); }
+  .bar-fill.p3 { background: var(--green); }
+  .bar-label { font-size: 11px; font-weight: 700; color: var(--text-soft); margin-top: 6px; }
+  .bar-kwh { font-size: 10px; color: #aab0bc; }
+  .chart-note { font-size: 11px; color: var(--text-soft); margin-top: 12px; border-top: 1px solid var(--warm-mid); padding-top: 10px; line-height: 1.6; }
+
+  .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .comp-col { border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(30,63,110,0.07); }
+  .comp-col.cur .comp-head  { background: var(--warm-mid); color: var(--text-soft); }
+  .comp-col.cur .comp-body  { background: var(--warm-light); }
+  .comp-col.cur .comp-sub   { background: var(--warm-dark); color: var(--text); }
+  .comp-col.cur .comp-total { background: var(--warm-dark); color: var(--text); }
+  .comp-col.prop .comp-head  { background: var(--blue); color: var(--white); }
+  .comp-col.prop .comp-body  { background: var(--blue-pale); }
+  .comp-col.prop .comp-sub   { background: var(--blue-mid); color: var(--white); }
+  .comp-col.prop .comp-total { background: var(--blue); color: var(--yellow); }
+  .comp-head { padding: 14px 18px; font-weight: 600; font-size: 12px; }
+  .comp-brand { font-weight: 300; font-size: 10px; margin-top: 2px; opacity: 0.65; }
+  .comp-sec { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; padding: 8px 14px 3px; font-weight: 700; }
+  .comp-col.cur  .comp-sec { color: #8a93a0; }
+  .comp-col.prop .comp-sec { color: var(--blue-mid); }
+  .comp-row { display: grid; grid-template-columns: 28px 1fr auto; font-size: 11px; padding: 5px 14px; align-items: center; }
+  .comp-col.cur  .comp-row { border-bottom: 1px solid var(--warm-mid); }
+  .comp-col.prop .comp-row { border-bottom: 1px solid #d0ddef; }
+  .comp-row .p { font-weight: 700; color: var(--text-soft); }
+  .comp-row .r { color: #aab0bc; font-size: 10px; }
+  .comp-row .a { font-weight: 600; text-align: right; }
+  .comp-row.excess .a { color: var(--green); }
+  .comp-sub { display: flex; justify-content: space-between; padding: 7px 14px; font-weight: 700; font-size: 11px; }
+  .comp-sub.excess { background: var(--green-pale) !important; color: var(--green) !important; }
+  .comp-xrow { display: flex; justify-content: space-between; padding: 5px 14px; font-size: 11px; }
+  .comp-col.cur  .comp-xrow { border-bottom: 1px solid var(--warm-mid); color: var(--text-soft); }
+  .comp-col.prop .comp-xrow { border-bottom: 1px solid #d0ddef; color: #3a5a80; }
+  .comp-xrow.good  { color: var(--green) !important; font-weight: 600; }
+  .comp-xrow.total { font-weight: 700; color: var(--text) !important; }
+  .comp-total { display: flex; justify-content: space-between; padding: 12px 14px; font-weight: 700; font-size: 20px; }
+
+  .ahorro-strip { background: linear-gradient(120deg, #1e3f6e 0%, #0f2240 100%); border-radius: 10px; padding: 28px 36px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-bottom: 20px; text-align: center; }
+  .ah-item { padding: 0 20px; border-right: 1px solid rgba(255,255,255,0.08); }
+  .ah-item:last-child { border-right: none; }
+  .ah-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+  .ah-value { font-size: 34px; font-weight: 700; color: var(--yellow); line-height: 1; }
+  .ah-value.green { color: #4fe69a; }
+  .ah-sub { font-size: 10px; color: rgba(255,255,255,0.28); margin-top: 5px; }
+
+  .vis-wrap { margin: 0 0 22px; }
+  .vis-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .vis-label { width: 100px; font-size: 11px; font-weight: 600; text-align: right; color: var(--text-soft); flex-shrink: 0; }
+  .vis-bg { flex: 1; background: var(--warm-mid); border-radius: 5px; height: 32px; overflow: hidden; }
+  .vis-bar { height: 100%; border-radius: 5px; display: flex; align-items: center; padding-left: 12px; font-size: 13px; font-weight: 700; min-width: 70px; }
+  .vb-gray { background: var(--warm-dark); color: var(--text); }
+  .vb-blue { background: linear-gradient(90deg, #1e3f6e, #2e5fa3); color: var(--yellow); }
+  .pill { border-radius: 20px; padding: 4px 14px; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .pill-green { background: var(--green); color: #fff; }
+
+  .validity-row { background: var(--blue-pale); border-radius: 8px; padding: 16px 22px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--blue); margin-bottom: 20px; }
+  .validity-row .vr-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 3px; }
+  .validity-row .vr-date { font-size: 16px; font-weight: 700; color: var(--blue); }
+  .validity-row .vr-note { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
+  .vr-badge { background: var(--blue); color: var(--yellow); border-radius: 6px; padding: 7px 16px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+
+  hr.div { border: none; border-top: 1px solid var(--warm-mid); margin: 20px 0; }
+
+  footer { background: linear-gradient(90deg, #0d1f38 0%, #1a3560 100%); color: rgba(255,255,255,0.38); padding: 24px 56px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; border-top: 3px solid rgba(252,219,80,0.5); }
+  footer .brand { color: var(--yellow); font-weight: 600; letter-spacing: 1px; }
+  footer .validity { text-align: right; font-size: 10px; }
+
+  @media print {
+    .cover { page-break-after: always; min-height: 100vh; }
+    .page { page-break-inside: avoid; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  @media (max-width: 640px) {
+    .cover { padding: 28px 20px; }
+    .cover-title { font-size: 52px; }
+    .page { padding: 28px 18px; }
+    .info-grid { grid-template-columns: 1fr 1fr; }
+    .comp-grid { grid-template-columns: 1fr; }
+    .ahorro-strip { grid-template-columns: 1fr; padding: 22px 18px; }
+    .ah-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 0 16px; margin-bottom: 16px; }
+    .ah-item:last-child { border: none; margin: 0; padding: 0; }
+    .cups-box { flex-direction: column; gap: 4px; }
+    .validity-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .cover-dots { display: none; }
+    footer { flex-direction: column; gap: 10px; padding: 20px 18px; text-align: center; }
+    footer .validity { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+
+<!-- ══ PORTADA ══ -->
+<div class="cover">
+  <div class="cover-glow"></div>
+  <div class="cover-glow2"></div>
+
+  <div class="cover-dots">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="cover-brand">
+    <span class="brand-name">Ingedás</span>
+    <span>Estudio de Electricidad · 2026</span>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-eyebrow">Propuesta de optimización energética</div>
+    <div class="cover-title">Estudio<br><strong>Eléctrico</strong></div>
+    <div class="cover-subtitle">Análisis &nbsp;·&nbsp; Comparativa &nbsp;·&nbsp; Ahorro</div>
+    <div class="cover-client-box">
+      <div class="label">Cliente</div>
+      <div class="client-name">José Javier Gil Riquelme</div>
+      <div class="client-meta">NIF 74238444X &nbsp;·&nbsp; C. Doctor Joseph Ortín 22, Crevillent (Alicante)</div>
+      <div class="cover-pills">
+        <span class="cover-pill accent">Tarifa 2.0TD</span>
+        <span class="cover-pill">4,000 kW contratados</span>
+        <span class="cover-pill">Naturgy Clientes</span>
+        <span class="cover-pill solar">☀ Autoconsumo con excedentes</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <div>Fecha de emisión: 26 de mayo de 2026</div>
+    <div>Válido hasta el 1 de junio de 2026</div>
+  </div>
+
+  <div class="cover-watermark">ingedás</div>
+</div>
+
+
+<!-- ══ PÁGINA DE CONTENIDO ══ -->
+<div class="page">
+  <div class="page-header">
+    <span class="ph-brand">Ingedás · Servicios Ingedás, S.L.</span>
+    <span>Datos del suministro · Comparativa · Ahorro</span>
+  </div>
+
+  <div class="cups-box">
+    <div>
+      <div class="cups-label">CUPS del punto de suministro</div>
+      ES0021000012599484ZN
+    </div>
+    <div class="cups-provider">Naturgy Clientes, S.A.U. · Tarifa Por Uso Luz</div>
+  </div>
+
+  <h2 class="section-title">Datos del Suministro</h2>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="ic-label">Titular</div>
+      <div class="ic-value">José Javier Gil Riquelme</div>
+      <div class="ic-sub">NIF 74238444X · Crevillent (Alicante)</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Compañía actual</div>
+      <div class="ic-value">Naturgy</div>
+      <div class="ic-sub">Tarifa Por Uso Luz · 0,109900 €/kWh</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Tarifa / Potencia</div>
+      <div class="ic-value">2.0TD · 4,000 kW</div>
+      <div class="ic-sub">P1 y P2 ambas a 4,000 kW</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Periodo analizado</div>
+      <div class="ic-value">110 kWh · 30 días</div>
+      <div class="ic-sub">Factura FE26390018297460 · 01/04 – 30/04/2026</div>
+    </div>
+  </div>
+
+  <div class="solar-strip">
+    <div style="font-size:18px;">☀</div>
+    <div>
+      <strong>Autoconsumo con excedentes acogido a compensación.</strong>
+      En el periodo analizado se vertieron a la red <strong>337 kWh</strong>.
+      La propuesta Ingedás compensa los excedentes a <strong>0,10 €/kWh</strong> frente a los 0,06 €/kWh actuales de Naturgy.
+    </div>
+  </div>
+
+  <h2 class="section-title">Consumo por Periodo — Factura FE26390018297460</h2>
+  <div class="chart-wrap">
+    <div class="chart-title">Distribución de consumo por periodo horario (kWh · 30 días)</div>
+    <div class="chart-bars">
+      <div class="bar-col">
+        <div class="bar-value">45</div>
+        <div class="bar-fill p1" style="height:103px;"></div>
+        <div class="bar-label">P1</div>
+        <div class="bar-kwh">Punta</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-value">8</div>
+        <div class="bar-fill p2" style="height:18px;"></div>
+        <div class="bar-label">P2</div>
+        <div class="bar-kwh">Llano</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-value" style="font-weight:700;">57</div>
+        <div class="bar-fill p3" style="height:130px;"></div>
+        <div class="bar-label">P3</div>
+        <div class="bar-kwh">Valle</div>
+      </div>
+    </div>
+    <div class="chart-note">
+      El <strong style="color:var(--green);">51,8% del consumo se concentra en P3 (Valle)</strong>, el periodo más económico.
+      Naturgy aplica un precio plano de 0,109900 €/kWh en los tres periodos.
+      La propuesta de Ingedás ofrece un <strong>precio fijo de 0,119 €/kWh</strong> con compensación de excedentes a <strong>0,10 €/kWh</strong> — casi el doble que el precio de compensación actual.
+    </div>
+  </div>
+
+  <h2 class="section-title">Comparativa de Tarifas · 30 días</h2>
+  <div class="comp-grid">
+    <div class="comp-col cur">
+      <div class="comp-head">
+        Factura Actual
+        <div class="comp-brand">Naturgy · Tarifa Por Uso Luz · Excedentes 0,06 €/kWh</div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-sec">Término de Potencia · 30 días · 4,000 kW</div>
+        <div class="comp-row"><span class="p">P1</span><span class="r">4,000 kW · 0,123030 €/kW·día</span><span class="a">14,76 €</span></div>
+        <div class="comp-row"><span class="p">P2</span><span class="r">4,000 kW · 0,037337 €/kW·día</span><span class="a">4,48 €</span></div>
+        <div class="comp-sub"><span>Subtotal Potencia</span><span>19,24 €</span></div>
+        <div class="comp-sec">Término de Energía · precio plano</div>
+        <div class="comp-row"><span class="p">P1</span><span class="r">45 kWh · 0,109900 €/kWh</span><span class="a">4,95 €</span></div>
+        <div class="comp-row"><span class="p">P2</span><span class="r">8 kWh · 0,109900 €/kWh</span><span class="a">0,88 €</span></div>
+        <div class="comp-row"><span class="p">P3</span><span class="r">57 kWh · 0,109900 €/kWh</span><span class="a">6,26 €</span></div>
+        <div class="comp-sub"><span>Subtotal Energía</span><span>12,09 €</span></div>
+        <div class="comp-sec">Compensación de excedentes</div>
+        <div class="comp-row excess"><span class="p">☀</span><span class="r">337 kWh × 0,060000 €/kWh</span><span class="a">−20,22 €</span></div>
+        <div class="comp-sub excess"><span>Compensación (limitada al subtotal energía)</span><span>−12,09 €</span></div>
+        <div class="comp-sec">Otros conceptos</div>
+        <div class="comp-xrow"><span>Financiación Bono social</span><span>0,57 €</span></div>
+        <div class="comp-xrow"><span>Mínimo comunitario</span><span>0,11 €</span></div>
+        <div class="comp-xrow"><span>Alquiler contador</span><span>0,80 €</span></div>
+        <div class="comp-xrow total"><span>Base Imponible</span><span>20,72 €</span></div>
+        <div class="comp-xrow"><span>IVA (10%)</span><span>2,07 €</span></div>
+      </div>
+      <div class="comp-total"><span>Total Periodo</span><span>22,79 €</span></div>
+    </div>
+
+    <div class="comp-col prop">
+      <div class="comp-head">
+        Propuesta Ingedás
+        <div class="comp-brand">Precio fijo · Excedentes 0,10 €/kWh · Permanencia 12 meses · Sin coste de servicio</div>
+      </div>
+      <div class="comp-body">
+        <div class="comp-sec">Término de Potencia · 30 días · 4,000 kW</div>
+        <div class="comp-row"><span class="p">P1</span><span class="r">4,000 kW · 0,097000 €/kW·día</span><span class="a">11,64 €</span></div>
+        <div class="comp-row"><span class="p">P2</span><span class="r">4,000 kW · 0,047000 €/kW·día</span><span class="a">5,64 €</span></div>
+        <div class="comp-sub"><span>Subtotal Potencia</span><span>17,28 €</span></div>
+        <div class="comp-sec">Término de Energía · precio fijo</div>
+        <div class="comp-row"><span class="p">P1</span><span class="r">45 kWh · 0,119000 €/kWh</span><span class="a">5,36 €</span></div>
+        <div class="comp-row"><span class="p">P2</span><span class="r">8 kWh · 0,119000 €/kWh</span><span class="a">0,95 €</span></div>
+        <div class="comp-row"><span class="p">P3</span><span class="r">57 kWh · 0,119000 €/kWh</span><span class="a">6,78 €</span></div>
+        <div class="comp-sub"><span>Subtotal Energía</span><span>13,09 €</span></div>
+        <div class="comp-sec">Compensación de excedentes</div>
+        <div class="comp-row excess"><span class="p">☀</span><span class="r">337 kWh × 0,100000 €/kWh</span><span class="a">−33,70 €</span></div>
+        <div class="comp-sub excess"><span>Compensación (limitada al subtotal energía)</span><span>−13,09 €</span></div>
+        <div class="comp-sec">Otros conceptos</div>
+        <div class="comp-xrow"><span>Financiación Bono social</span><span>0,57 €</span></div>
+        <div class="comp-xrow"><span>Mínimo comunitario</span><span>0,11 €</span></div>
+        <div class="comp-xrow"><span>Alquiler contador</span><span>0,80 €</span></div>
+        <div class="comp-xrow good"><span>✓ Sin coste de servicio</span><span>—</span></div>
+        <div class="comp-xrow total"><span>Base Imponible</span><span>18,76 €</span></div>
+        <div class="comp-xrow"><span>IVA (10%)</span><span>1,88 €</span></div>
+      </div>
+      <div class="comp-total"><span>Total Periodo</span><span>20,64 €</span></div>
+    </div>
+  </div>
+
+  <p style="font-size:10px;color:#aab0bc;margin-bottom:22px;">* Estudio realizado con la factura FE26390018297460, periodo 01/04/2026 – 30/04/2026 (30 días). Precios de la propuesta Ingedás: Potencia P1 0,097 €/kW·día · P2 0,047 €/kW·día · Energía 0,119 €/kWh fijo · Excedentes 0,10 €/kWh. Por normativa, la compensación de excedentes está limitada al subtotal de energía del periodo (Real Decreto 244/2019). Bono social, mínimo comunitario, alquiler de contador e impuestos según normativa vigente.</p>
+
+  <h2 class="section-title">Resumen del Ahorro</h2>
+  <div class="ahorro-strip">
+    <div class="ah-item">
+      <div class="ah-label">Ahorro en el periodo analizado</div>
+      <div class="ah-value">2,15 €</div>
+      <div class="ah-sub">30 días · factura real vs. propuesta Ingedás</div>
+    </div>
+    <div class="ah-item">
+      <div class="ah-label">Reducción sobre factura</div>
+      <div class="ah-value green">−9,4%</div>
+      <div class="ah-sub">22,79 € → 20,64 €</div>
+    </div>
+    <div class="ah-item">
+      <div class="ah-label">Estimación ahorro anual</div>
+      <div class="ah-value">~26 €</div>
+      <div class="ah-sub">Estimación proporcional a 12 meses</div>
+    </div>
+  </div>
+
+  <div class="vis-wrap">
+    <div class="vis-row">
+      <div class="vis-label">Naturgy</div>
+      <div class="vis-bg"><div class="vis-bar vb-gray" style="width:100%;">22,79 €</div></div>
+      <div style="width:76px;"></div>
+    </div>
+    <div class="vis-row">
+      <div class="vis-label">Ingedás</div>
+      <div class="vis-bg"><div class="vis-bar vb-blue" style="width:90.6%;">20,64 €</div></div>
+      <div class="pill pill-green">−9,4%</div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <h2 class="section-title">Validez del Presupuesto</h2>
+  <div class="validity-row">
+    <div>
+      <div class="vr-label">Oferta válida hasta</div>
+      <div class="vr-date">1 de junio de 2026</div>
+      <div class="vr-note">Validez máxima de 6 días desde la emisión (26/05/2026). Pasada esta fecha los precios pueden variar.</div>
+    </div>
+    <div class="vr-badge">⏱ 6 días de validez</div>
+  </div>
+
+</div>
+
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div>
+    <div class="brand">Ingedás · Servicios Ingedás, S.L</div>
+    <div style="margin-top:3px;">Avda. Del Mar 10 · 03300 Orihuela (Alicante) · B06816938</div>
+    <div style="margin-top:2px;">administracion@ingedas.es · www.ingedas.com · 626 119 254</div>
+  </div>
+  <div class="validity">
+    <div>Estudio emitido el 26/05/2026</div>
+    <div style="margin-top:3px;color:var(--yellow);">Basado en factura FE26390018297460</div>
+    <div style="margin-top:5px;color:#f0b84a;font-weight:600;">Válido hasta el 01/06/2026</div>
+    <div style="margin-top:6px;color:rgba(255,255,255,0.18);">Documento confidencial · uso exclusivo del destinatario</div>
+  </div>
+</footer>
+
+
+</body>
+</html>
